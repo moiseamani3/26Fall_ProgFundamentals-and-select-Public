@@ -10,6 +10,15 @@ menu = {
     "croissant": 3.25,
 }
 
+menu_choices = {
+    "A": "espresso",
+    "B": "latte",
+    "C": "cappuccino",
+    "D": "mocha",
+    "E": "muffin",
+    "F": "croissant",
+}
+
 order = []
 
 
@@ -19,14 +28,15 @@ def greet(name):
 
 #Loops through menu.items() and prints every item with its price.
 def show_menu(menu):
+    print()
+    for choice, item in menu_choices.items():
+        price = menu[item]
+        print(f"{choice}. {item}: ${price:.2f}")
 
-    for item, price in menu.items():
-        print(f"{item}: ${price:.2f}")
-        
 
 #If the order is empty, prints "Your order is empty." Otherwise prints each item with its price, then the number of items using len().
 def show_order(order, menu):
-    if len(order) == 0:
+    if not order:
         print("Your order is empty.")
 
     else:
@@ -92,7 +102,10 @@ CustomerName = input("What is your name ?")
 greet(CustomerName)
 
 member_input = input("Are you a rewards member? (yes/no)").lower()
-is_member = member_input == "Yes"
+is_member = member_input == "yes"
+
+
+
 
 while True:
     print()
@@ -101,25 +114,26 @@ while True:
     print("3. Remove an item")
     print("4. View my order")
     print("5. Checkout")
+    print()
 
     choice = input("Please choose a number from (1-5)") 
-    ##show_menu(choice)
+    #show_menu(choice)
 
     if choice == "1":
+        print()
         show_menu(menu)
+#---looking for a way to map item choices to menu items with alphabets (A-F)
+    elif choice == "2":
+        item_choice = input("Choose an option (A-F): ").upper()
+        item = menu_choices.get(item_choice)
 
-    elif is_member == "2":
-        item = input("What would you like?").lower()
-
-        #item_choice = input("Choose an option (1-6):")
-
-        if item in menu:
-            quantity = int(input("How many?"))
+        if item is not None:
+            quantity = int(input("How many? "))
 
             if quantity >= 1:
                 for qty in range(quantity):
                     order.append(item)
-                print("Added {quantity} {item} to your order.")
+                print(f"Added {quantity} {item} to your order.")
             else:
                 print("Quantity must be at least 1.")
 
@@ -150,17 +164,18 @@ while True:
         if len(order) == 0:
             print("Your order is empty. Please add something first.")
 
-
         else:
-            print_receipt(name, order, menu, is_member)
+            print_receipt(CustomerName, order, menu, is_member)
             break
+
+    else:
+        print("Please choose a number from 1 to 5.")
+        break
 
 
 
     
-##    elif choise == "4":
-##        print("--- YOUR ORDER ---")
-##        print(3)
+
 
     
     
@@ -183,5 +198,3 @@ while True:
 
 
  
-
-    

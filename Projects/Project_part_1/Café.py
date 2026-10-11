@@ -10,6 +10,15 @@ menu = {
     "croissant": 3.25,
 }
 
+menu_choices = {
+    "A": "espresso",
+    "B": "latte",
+    "C": "cappuccino",
+    "D": "mocha",
+    "E": "muffin",
+    "F": "croissant",
+}
+
 order = []
 
 
@@ -20,8 +29,9 @@ def greet(name):
 #Loops through menu.items() and prints every item with its price.
 def show_menu(menu):
     print()
-    for item, price in menu.items():
-        print(f"{item}: ${price:.2f}")
+    for choice, item in menu_choices.items():
+            price = menu[item]
+            print(f"{choice}. {item}: ${price:.2f}")
     
         
 
@@ -97,7 +107,7 @@ is_member = member_input == "yes"
 
 
 
-
+#----- Main loop for handling user choices
 while True:
     print()
     print("1. View menu")
@@ -108,42 +118,32 @@ while True:
     print()
 
     choice = input("Please choose a number from (1-5)") 
+    
     #show_menu(choice)
-
     if choice == "1":
         print()
         show_menu(menu)
-
+#--- maping item choices to menu items with alphabets (A-F)
     elif choice == "2":
-        item = input("What would you like?").lower()
-
-        A = "espresso"
-        B = "latte"
-        C = "cappuccino"
-        D = "mocha"
-        E = "muffin"
-        F = "croissant"
-
-        #item_choice = input("Choose an option (1-6):")
-
-        if item in menu:
-            quantity = int(input("How many?"))
-
+        item_choice = input("Choose an option (A-F): ").upper()
+        item = menu_choices.get(item_choice)
+        
+        if item is not None:
+            quantity = int(input("How many? "))
+        
             if quantity >= 1:
                 for qty in range(quantity):
                     order.append(item)
                 print(f"Added {quantity} {item} to your order.")
             else:
                 print("Quantity must be at least 1.")
-
+        
         else:
             print(f"sorry, {item} is not on the menu.")
 
 
-
-
+#--- removing an item from the order
     elif choice == "3":
-
         item = input("Which item should I remove?").lower()
 
         if item in order:
@@ -154,7 +154,7 @@ while True:
             print(f"{item} isn't in your order.")
 
 
-        
+ #--- viewing the current order
     elif choice == "4":
         show_order(order, menu)
 
@@ -174,9 +174,6 @@ while True:
 
 
     
-##    elif choise == "4":
-##        print("--- YOUR ORDER ---")
-##        print(3)
 
     
     
