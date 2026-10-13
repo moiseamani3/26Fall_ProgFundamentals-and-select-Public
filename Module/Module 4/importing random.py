@@ -6,8 +6,11 @@ import random
 
 #print(random.seed(a= None, version=2))
 
-answer = random.randit(1, 3)
+answer = random.randint(1, 3)
 
 if answer == 1:
     print("Yes")
-if answer == 2:
+elif answer == 2:
+    print("No")
+else:
+    print("Maybe")
