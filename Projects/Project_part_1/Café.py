@@ -169,7 +169,7 @@ while True:
 
     else:
         print("Please choose a number from 1 to 5.")
-        break
+        
 
 
 
