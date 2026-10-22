@@ -5,6 +5,7 @@ cur = conn.cursor() # the cursor is used to execute SQL commands
 # Remove the old table, so this step can be run again.
 cur.execute("DROP TABLE IF EXISTS books")
 
+#Create a table named books with its columns.
 cur.execute("""
 CREATE TABLE books
 ( id INT PRIMARY KEY,
@@ -15,10 +16,11 @@ genre VARCHAR(20),
 copies INT,
 rating NULL)""")
 
-# One row, with the values written straight into the SQL.
+#_____Add at least 8 books. Use at least 3 different genres____
+#Added one book with a single INSERT statement.
 cur.execute("INSERT INTO books VALUES (1, 'Pride and Prejudice', 'Jane Austen', 1813, 'romance', 5, 4)")
 
-# Many rows: each ? is filled in from a tuple. None is stored as NULL (empty).
+#add the rest of the books with a list of tuples and executemany using ? placeholders.
 books = [
 (2, "The Count of Monte Cristo", "Alexandre Dumas", 1944, "adventure", 3, None),
 (3, "Jane Eyre", "Charlotte Brontë", 1947, "romance", 2, 4),
@@ -30,33 +32,38 @@ books = [
 ]
 cur.executemany("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?)", books)
 
-##print("8 books have been added to the library database.")
-print("\nThe titles of books published after 1900 are:")
-cur.execute("SELECT title, author FROM books WHERE year > 1900")
+
+# Print the title and author of books published after 1990.
+print("\nThe titles and authors of books published after 1990 are:")
+cur.execute("SELECT title, author FROM books WHERE year > 1990")
 for row in cur.fetchall():
     print(row)
 
+#Print the title of fiction books with more than 2 copies (AND).
 print("\nThe titles of Fiction books with more than 2 copies are:")
 cur.execute("SELECT title FROM books WHERE genre = 'Fiction' AND copies > 2")
 for row in cur.fetchall():
     print(row)
 
+#Print the title of books published before 1900 or rated 5 (OR)
 print("\nThe titles of books published before 1900 or rated 5 are:")
 cur.execute("SELECT title FROM books WHERE year < 1900 OR rating = 5")
 for row in cur.fetchall():
     print(row)
 
+# Print the title of books that are not in the Mystery genre (NOT).
 print("\nThe titles of books that are not in the Mystery genre are:")
 cur.execute("SELECT title FROM books WHERE NOT genre = 'Mystery'")
 for row in cur.fetchall():
     print(row)
 
+# Print the title of books in either the Science or History genre (IN).
 print("\nThe titles of books in either the Science or History genres are:") 
 cur.execute("SELECT title FROM books WHERE genre IN ('Science', 'History')")
 for row in cur.fetchall():
     print(row)
 
-# Sixth query: ask for a letter and display matching authors.
+#Ask the user for a letter, then print the authors whose names start with that letter (LIKE). Pass the letter with a ? placeholder.
 letter = input("\nEnter a letter to search for authors: ").strip()
 
 print(f"\nAuthors whose names start with '{letter}':")
@@ -69,19 +76,13 @@ cur.execute(
 for row in cur.fetchall():
     print(row[0])
 
-
+#Print the title of books that have no rating (IS NULL).
 print("\nThe titles of books that have no rating are:")
 cur.execute("SELECT title FROM books WHERE rating IS NULL")
 for row in cur.fetchall():
     print(row)
 
-
-
-
-
-
-
-
-conn.commit() # save the changes to the file
+# save the changes to the file
+conn.commit() 
 conn.close()
 print("The library database has been created.")
