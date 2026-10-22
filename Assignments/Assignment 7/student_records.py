@@ -91,7 +91,7 @@ if answer == "yes":
         INSERT INTO StudentRecords (ID, Name, Age, Major)
         VALUES (?, ?, ?, ?)
         """,
-        (new_id, name, age, major)
+        (new_id, name, age, major)  
     )
 
     print("New student added.")
@@ -103,12 +103,12 @@ conn.commit()
 print("\nUpdated list of all students:")
 
 cur.execute("""
-SELECT Name, Age, Major
+SELECT ID, Name, Age, Major
 FROM StudentRecords
 ORDER BY ID
 """)
 #sorting by IDs but no displyaying them.
-for name, age, major in cur.fetchall():
-    print(f"Name: {name}, Age: {age}, Major: {major}")
+for id, name, age, major in cur.fetchall():
+    print(f"Name: {id}, {name}, Age: {age}, Major: {major}")
 
 conn.close()
