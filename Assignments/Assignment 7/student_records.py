@@ -100,7 +100,6 @@ if answer == "yes":
 conn.commit()
 
 # Display the updated list, including the new student.
-# IDs are used for sorting but are not displayed.
 print("\nUpdated list of all students:")
 
 cur.execute("""
@@ -108,7 +107,7 @@ SELECT Name, Age, Major
 FROM StudentRecords
 ORDER BY ID
 """)
-
+#sorting by IDs but no displyaying them.
 for name, age, major in cur.fetchall():
     print(f"Name: {name}, Age: {age}, Major: {major}")
 
